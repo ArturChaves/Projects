@@ -11,7 +11,7 @@ class game:
         self.clock = pg.time.Clock()
         self.delta_time = 1
         self.start_game()
-
+    
     def start_game(self):
         self.map = map(self)
         self.player = player(self)
