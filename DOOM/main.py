@@ -1,6 +1,7 @@
 from settings import *
 import pygame as pg
 import sys
+from player import *
 from map import *
 
 class game:
@@ -8,19 +9,23 @@ class game:
         pg.init()
         self.screen = pg.display.set_mode(res)
         self.clock = pg.time.Clock()
+        self.delta_time = 1
         self.start_game()
 
     def start_game(self):
         self.map = map(self)
+        self.player = player(self)
 
     def update(self):
+        self.player.update()
         pg.display.flip()
-        self.clock.tick(fps)
+        self.delta_time = self.clock.tick(fps)
         pg.display.set_caption(f'{self.clock.get_fps() :.1f}')
     
     def draw(self):
         self.screen.fill('black')
         self.map.draw()
+        self.player.draw()
     
     def check_events(self):
         for event in pg.event.get():
