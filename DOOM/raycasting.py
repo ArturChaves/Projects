@@ -58,9 +58,20 @@ class RayCasting:
             else:
                 depth = depth_hor
 
-            #draw for debug
-            pg.draw.line(self.game.screen, 'yellow', (100 * ox, 100 * oy),
-                (100 * ox + 100 * depth * cos_a, 100 * oy + 100 * depth * sin_a), 2)
+            #projection
+            projection_height = screen_distance / (depth + 0.0001)
+ 
+ 
+ 
+            #removing the fishbowl effect 
+
+            depth *= cos(self.game.player.angle - ray_angle)
+
+
+            #draw walls 
+            color = [255 / (1 + depth ** 5 * 0.00002)] * 3
+            pg.draw.rect(self.game.screen, color,
+                         (ray * scale, half_height - projection_height // 2, scale, projection_height))
 
             
             ray_angle += delta_angle
