@@ -5,8 +5,32 @@ from settings import *
 class RayCasting:
     def __init__(self, game):
         self.game = game
+        self.ray_casting_result = []
+        self.objects_to_render = []
+        self.textures = self.game.ObjectRender.wall_textures
+    
+    def get_objects_to_render(self):
+        self.objects_to_render = []
+        for ray, values in enumerate(self.ray_casting_result):
+            depth, projection_height, texture, offeset = values
+            if projection_height < height:
+                wall_column = self.textures[texture].subsurface(
+                    offeset * (texture_size - scale), 0, scale, texture_size
+                )
+                wall_column = pg.transform.scale(wall_column, (scale, projection_height))
+                wall_pos = (ray * scale, half_height - projection_height // 2)
+            else:
+                texture_height = texture_size * height / projection_height
+                wall_column = self.textures[texture].subsurface(
+                    offeset * (texture_size - scale), half_texture_size - texture_height // 2,
+                    scale, texture_height
+                )
+                wall_column = pg.transform.scale(wall_column, (scale, height))
+                wall_pos = (ray * scale, 0)
 
+            self.objects_to_render.append((depth, wall_column, wall_pos))
     def ray_cast(self):
+        self.ray_casting_result = []
 
         ox, oy = self.game.player.pos
         x_map, y_map = self.game.player.map_pos
@@ -30,6 +54,7 @@ class RayCasting:
             for i in range(max_depth):
                 tile_hor = int(x_hor), int(y_hor)
                 if tile_hor in self.game.map.world_map:
+                    texture_hor = self.game.map.world_map[tile_hor]
                     break
                 x_hor += dx
                 y_hor += dy
@@ -47,6 +72,7 @@ class RayCasting:
             for i in range(max_depth):
                 tile_vert = int(x_vert), int(y_vert)
                 if tile_vert in self.game.map.world_map:
+                    texture_vert = self.game.map.world_map[tile_vert]
                     break
                 x_vert += dx
                 y_vert += dy
@@ -54,9 +80,13 @@ class RayCasting:
 
             #depth
             if depth_vert < depth_hor:
-                depth = depth_vert
+                depth, texture = depth_vert, texture_vert
+                y_vert %= 1
+                offset = y_vert if cos_a > 0 else (1 - y_vert)
             else:
-                depth = depth_hor
+                depth, texture = depth_hor, texture_hor
+                x_hor %= 1
+                offset = (1 - x_hor) if sin_a > 0 else x_hor
 
             #projection
             projection_height = screen_distance / (depth + 0.0001)
@@ -67,14 +97,11 @@ class RayCasting:
 
             depth *= cos(self.game.player.angle - ray_angle)
 
-
-            #draw walls 
-            color = [255 / (1 + depth ** 5 * 0.00002)] * 3
-            pg.draw.rect(self.game.screen, color,
-                         (ray * scale, half_height - projection_height // 2, scale, projection_height))
-
+            #RayCasting results
+            self.ray_casting_result.append((depth, projection_height, texture, offset))
             
             ray_angle += delta_angle
 
     def update(self):
-        self.ray_cast() 
+        self.ray_cast()
+        self.get_objects_to_render()

@@ -4,9 +4,11 @@ import sys
 from player import *
 from map import *
 from raycasting import *
+from ObjectRender import *
 class game:
     def __init__(self):
         pg.init()
+        pg.mouse.set_visible(False)
         self.screen = pg.display.set_mode(res)
         self.clock = pg.time.Clock()
         self.delta_time = 1
@@ -15,6 +17,7 @@ class game:
     def start_game(self):
         self.map = map(self)
         self.player = player(self)
+        self.ObjectRender = object_render(self)
         self.raycasting = RayCasting(self)
 
     def update(self):
@@ -25,7 +28,8 @@ class game:
         pg.display.set_caption(f'{self.clock.get_fps() :.1f}')
     
     def draw(self):
-        self.screen.fill('black')
+        # self.screen.fill('black')
+        self.ObjectRender.draw()
         #self.map.draw()
         #self.player.draw()
     

@@ -12,6 +12,17 @@ player_position = 1.5, 5 #mini_map
 player_angle = 0
 player_speed = 0.004
 player_rot_speed = 0.002
+player_size_scale = 60
+
+#Mouse settings
+
+mouse_sensitivity = 0.0003
+mouse_max_rel = 40
+mouse_border_left = 100
+mouse_border_right = width - mouse_border_left
+
+
+floor_color = (30, 30, 30)
 
 fov = pi / 3
 half_fov = fov / 2
