@@ -3,10 +3,18 @@ import pygame as pg
 from math import *
 
 class player:
-    def __init__(self, game):
-        self.game = game
+    def __init__(self, Game):
+        self.game = Game
         self.x, self.y = player_position
         self.angle = player_angle
+        self.shot = False
+
+    def single_fire_event(self, event):
+        if event.type == pg.MOUSEBUTTONDOWN:
+            if event.button == 1 and not self.shot and not self.game.weapon.reloading:
+                self.game.sound.shotgun.play()
+                self.shot = True
+                self.game.weapon.reloading = True
 
     def movment(self):
         sin_a = sin(self.angle)
