@@ -27,7 +27,7 @@ floor_color = (30, 30, 30)
 fov = pi / 3
 half_fov = fov / 2
 num_rays = width // 2
-helf_num_rays = num_rays // 2
+half_num_rays = num_rays // 2
 delta_angle = fov / num_rays
 max_depth = 20
 

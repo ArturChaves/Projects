@@ -5,6 +5,10 @@ from player import *
 from map import *
 from raycasting import *
 from ObjectRender import *
+from sprite_objects import *
+from ObjectHandler import *
+
+
 class game:
     def __init__(self):
         pg.init()
@@ -19,10 +23,12 @@ class game:
         self.player = player(self)
         self.ObjectRender = object_render(self)
         self.raycasting = RayCasting(self)
+        self.object_handler = ObjectHandler(self)
 
     def update(self):
         self.player.update()
         self.raycasting.update()
+        self.object_handler.update()
         pg.display.flip()
         self.delta_time = self.clock.tick(fps)
         pg.display.set_caption(f'{self.clock.get_fps() :.1f}')
