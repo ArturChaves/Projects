@@ -10,6 +10,7 @@ class ObjectHandler:
         self.animated_sprite_path= 'DOOM/resources/sprites/animated_sprites/'
         add_sprite = self.add_sprites
         add_npc = self.AddNPC
+        self.npc_positions = {}
 
         #Sprite map
 
@@ -30,9 +31,11 @@ class ObjectHandler:
 
         add_npc(NPC(game))
         add_npc(NPC(game, pos= (11.5, 4.5)))
+        add_npc(NPC(game, pos= (13, 7)))
 
 
     def update(self):
+        self.npc_positions = {npc.map_pos for npc in self.npc_list if npc.alive}
         [sprite.update() for sprite in self.sprite_list]
         [npc.update() for npc in self.npc_list]
 

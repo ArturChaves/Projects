@@ -28,7 +28,7 @@ class NPC(AnimatedSprite):
         self.check_animations_time()
         self.get_sprite()
         self.run_logic()
-        self.draw_ray_cast()
+        #self.draw_ray_cast()
     
     def check_wall(self, x , y):
         return(x , y) not in self.game.map.world_map
@@ -43,12 +43,12 @@ class NPC(AnimatedSprite):
     def movment(self):
         next_pos = self.game.pathfinding.get_path(self.map_pos, self.game.player.map_pos)
         next_x, next_y = next_pos
-
+        if next_pos not in self.game.object_handler.npc_positions:
         #pg.draw.rect(self.game.screen, 'blue', (100 * next_x, 100 * next_y, 100, 100))
-        angle = atan2(next_y + 0.5 - self.y, next_x + 0.5 - self.x)
-        dx = cos(angle) * self.speed
-        dy = sin(angle) * self.speed
-        self.check_wall_collision(dx, dy)
+            angle = atan2(next_y + 0.5 - self.y, next_x + 0.5 - self.x)
+            dx = cos(angle) * self.speed
+            dy = sin(angle) * self.speed
+            self.check_wall_collision(dx, dy)
 
     
 
