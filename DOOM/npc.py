@@ -41,8 +41,10 @@ class NPC(AnimatedSprite):
 
 
     def movment(self):
-        next_pos = self.game.player.map_pos
+        next_pos = self.game.pathfinding.get_path(self.map_pos, self.game.player.map_pos)
         next_x, next_y = next_pos
+
+        #pg.draw.rect(self.game.screen, 'blue', (100 * next_x, 100 * next_y, 100, 100))
         angle = atan2(next_y + 0.5 - self.y, next_x + 0.5 - self.x)
         dx = cos(angle) * self.speed
         dy = sin(angle) * self.speed

@@ -9,6 +9,7 @@ from sprite_objects import *
 from ObjectHandler import *
 from weapon import *
 from sound import *
+from pathFinder import *
 class game:
     def __init__(self):
         pg.init()
@@ -29,6 +30,7 @@ class game:
         self.object_handler = ObjectHandler(self)
         self.weapon = Weapon(self)
         self.sound = Sound(self)
+        self.pathfinding = PathFinding(self)
 
     def update(self):
         self.player.update()
@@ -41,11 +43,11 @@ class game:
 
     
     def draw(self):
-        self.screen.fill('black')
-        # self.ObjectRender.draw()
-        # self.weapon.draw()
-        self.map.draw()
-        self.player.draw()
+        #self.screen.fill('black')
+        self.ObjectRender.draw()
+        self.weapon.draw()
+        #self.map.draw()
+        #self.player.draw()
     
     def check_events(self):
         self.global_trigger = False
