@@ -13,6 +13,7 @@ player_angle = 0
 player_speed = 0.004
 player_rot_speed = 0.002
 player_size_scale = 60
+player_max_life = 100
 
 #Mouse settings
 

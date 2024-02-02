@@ -11,6 +11,7 @@ class ObjectHandler:
         add_sprite = self.add_sprites
         add_npc = self.AddNPC
         self.npc_positions = {}
+        
 
         #Sprite map
 

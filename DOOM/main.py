@@ -12,6 +12,7 @@ from sound import *
 from pathFinder import *
 class game:
     def __init__(self):
+        pg.mixer.init()
         pg.init()
         pg.mouse.set_visible(False)
         self.screen = pg.display.set_mode(res)
@@ -31,6 +32,7 @@ class game:
         self.weapon = Weapon(self)
         self.sound = Sound(self)
         self.pathfinding = PathFinding(self)
+        pg.mixer.music.play()
 
     def update(self):
         self.player.update()

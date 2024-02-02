@@ -17,7 +17,7 @@ class NPC(AnimatedSprite):
         self.size = 10
         self.health = 100
         self.attack_damage = 10
-        self.accuracy = 0.15
+        self.accuracy = 0.10
         self.alive = True
         self.pain = False
         self.ray_cast_value = False
@@ -50,7 +50,11 @@ class NPC(AnimatedSprite):
             dy = sin(angle) * self.speed
             self.check_wall_collision(dx, dy)
 
-    
+    def attack(self):
+        if self.animation_trigger:
+            self.game.sound.npc_attack.play()
+            if random() < self.accuracy:
+                self.game.player.get_damage(self.attack_damage)
 
     def animate_death(self):
 
@@ -90,8 +94,12 @@ class NPC(AnimatedSprite):
 
             elif self.ray_cast_value:
                 self.player_search_trigger = True
-                self.Animate(self.walk_images)
-                self.movment()
+                if self.dist < self.attack_distance:
+                    self.Animate(self.attack_images)
+                    self.attack()
+                else:
+                    self.Animate(self.walk_images)
+                    self.movment()
             elif self.player_search_trigger:
                 self.Animate(self.walk_images)
                 self.movment()
@@ -174,3 +182,7 @@ class NPC(AnimatedSprite):
         if self.ray_cast_player_npc():
             pg.draw.line(self.game.screen, 'orange', (100 * self.game.player.x , 100 * self.game.player.y),
                          (100 * self.x, 100 * self.y), 2)
+            
+
+
+    
